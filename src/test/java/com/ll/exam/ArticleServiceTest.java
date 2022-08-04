@@ -149,6 +149,21 @@ public class ArticleServiceTest {
     @Test
     public void 이전_글_가져오기() {
 
+        ArticleDto articleDtoBefore = articleService.findByBeforeId(1);
+        if (articleDtoBefore.getId() == 1) {
+            assertThat(articleDtoBefore).isNull();
+        }
+        ArticleDto articleDto = articleService.getArticleById(0);
+        assertThat(articleDtoBefore).isEqualTo(articleDto);
+
+
 
     }
+    @Test
+    public void 다음_글_가져오기() {
+        ArticleDto articleDtoBefore = articleService.findByAfterId(2);
+        ArticleDto articleDto = articleService.getArticleById(3);
+        assertThat(articleDtoBefore).isEqualTo(articleDto);
+    }
+
 }
