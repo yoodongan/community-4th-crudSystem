@@ -141,7 +141,6 @@ public class ArticleServiceTest {
         ArticleService articleService = Container.getObj(ArticleService.class);
         articleService.deleteById(1);
         ArticleDto articleDto = articleService.getArticleById(1);
-        assertThat(articleDto).isEqualTo(null);
-
+        assertThat(articleDto).isEqualTo(null);   // isNull(); 써도 똑같다.
     }
 }
