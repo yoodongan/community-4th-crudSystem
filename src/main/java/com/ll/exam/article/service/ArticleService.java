@@ -33,4 +33,8 @@ public class ArticleService {
         articleRepository.modify(id, title, body, isBlind);
 
     }
+
+    public void deleteById(long id) {
+        articleRepository.deleteById(id);
+    }
 }
