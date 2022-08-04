@@ -15,4 +15,9 @@ public class ArticleService {
     public List<ArticleDto> getArticles() {
         return articleRepository.getArticles();
     }
+
+    public ArticleDto getArticleById(long i) {
+        ArticleDto articleDto = articleRepository.getArticleById(i);
+        return articleDto;
+    }
 }

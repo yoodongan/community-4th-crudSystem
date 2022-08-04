@@ -21,4 +21,17 @@ public class ArticleRepository {
                 .append("ORDER BY id DESC");
         return sql.selectRows(ArticleDto.class);
     }
+
+    public ArticleDto getArticleById(long i) {
+        SecSql sql = myMap.genSecSql();
+        sql
+                .append("SELECT *")
+                .append("FROM article")
+                .append("WHERE id = ?", i);
+
+        return sql.selectRow(ArticleDto.class);
+    }
+
+
+
 }
