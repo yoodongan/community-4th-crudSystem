@@ -38,11 +38,12 @@ public class ArticleService {
         articleRepository.deleteById(id);
     }
 
-    public ArticleDto findByBeforeId(long id) {
-        return articleRepository.findByBeforeId(id);
+
+    public ArticleDto getBeforeId(long id) {
+        return articleRepository.getBeforeId(id);
     }
 
-    public ArticleDto findByAfterId(long id) {
-        return articleRepository.findByAfterId(id);
+    public ArticleDto getAfterId(long id) {
+        return articleRepository.getAfterId(id);
     }
 }

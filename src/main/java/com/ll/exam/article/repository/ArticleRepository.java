@@ -75,32 +75,28 @@ public class ArticleRepository {
         sql.update();
     }
 
-    public ArticleDto findByBeforeId(long id) {
-        if(id == 1) {
-            return null;
-        }
-
+    public ArticleDto getBeforeId(long id) {
         SecSql sql = myMap.genSecSql();
         sql
                 .append("SELECT *")
                 .append("FROM article")
-                .append("WHERE id = ?", id-1);
+                .append("WHERE id < ?", id)
+                .append("ORDER BY id DESC")
+                .append("LIMIT 1");
 
         return sql.selectRow(ArticleDto.class);
-
     }
 
-    public ArticleDto findByAfterId(long id) {
-        if(id == getArticlesCount()) {
-            return null;
-        }
+
+    public ArticleDto getAfterId(long id) {
         SecSql sql = myMap.genSecSql();
         sql
                 .append("SELECT *")
                 .append("FROM article")
-                .append("WHERE id = ?", id+1);
+                .append("WHERE id > ?", id)
+                .append("ORDER BY id ASC")
+                .append("LIMIT 1");
 
         return sql.selectRow(ArticleDto.class);
-
     }
 }

@@ -148,22 +148,26 @@ public class ArticleServiceTest {
 
     @Test
     public void 이전_글_가져오기() {
-
-        ArticleDto articleDtoBefore = articleService.findByBeforeId(1);
-        if (articleDtoBefore.getId() == 1) {
-            assertThat(articleDtoBefore).isNull();
-        }
-        ArticleDto articleDto = articleService.getArticleById(0);
-        assertThat(articleDtoBefore).isEqualTo(articleDto);
-
-
+        // 1번 케이스 . 2번글의 이전 글은 1번 글이다. (id로 가져오기.)
+        ArticleDto articleDto = articleService.getBeforeId(2);
+        assertThat(articleDto.getId()).isEqualTo(1);
+        // 2번 케이스. 1번글의 이전 글은 없습니다. (null 이 나와야 함.)
+        ArticleDto articleDto1 = articleService.getBeforeId(1);
+        assertThat(articleDto1).isNull();
 
     }
     @Test
     public void 다음_글_가져오기() {
-        ArticleDto articleDtoBefore = articleService.findByAfterId(2);
-        ArticleDto articleDto = articleService.getArticleById(3);
-        assertThat(articleDtoBefore).isEqualTo(articleDto);
+        // 1번 케이스. 2번글의 다음 글은 3번 글입니다.
+        ArticleDto articleDto = articleService.getAfterId(2);
+        assertThat(articleDto.getId()).isEqualTo(3);
+
+        // 마지막 글의 다음글은 없습니다. (null 이 나와야 함.)
+        ArticleDto articleDto1 = articleService.getAfterId(TEST_DATA_SIZE);
+        assertThat(articleDto1).isNull();
     }
+
+
+
 
 }
