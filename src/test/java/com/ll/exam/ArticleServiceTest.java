@@ -49,7 +49,7 @@ public class ArticleServiceTest {
         MyMap myMap = Container.getObj(MyMap.class);
 
         IntStream.rangeClosed(1, TEST_DATA_SIZE).forEach(no -> {
-            boolean isBlind = false;
+            boolean isBlind = no >= 11 && no <= 20;
             String title = "제목%d".formatted(no);
             String body = "내용%d".formatted(no);
 
@@ -165,6 +165,13 @@ public class ArticleServiceTest {
         // 마지막 글의 다음글은 없습니다. (null 이 나와야 함.)
         ArticleDto articleDto1 = articleService.getAfterId(TEST_DATA_SIZE);
         assertThat(articleDto1).isNull();
+    }
+
+    @Test
+    public void _10번_글의_다음글은_21번글_이다_블라인드_처리가_적용됨() {
+        ArticleDto articleDto = articleService.getAfterId(10);
+        assertThat(articleDto.getId()).isEqualTo(21);
+
     }
 
 
