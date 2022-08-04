@@ -16,8 +16,7 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @GetMapping("/usr/article/list/{boardCode}") // /usr/article/list/free 와 같이 관련된 요청을 처리하는 함수이다.
-    // 아래 showList 는 Get /usr/article/list 으로 요청이 왔을 때 실행 되어야 하는 함수이다.
+    @GetMapping("/usr/article/list")
     public void showList(Rq rq) {
         List<ArticleDto> articleDtos = articleService.getArticles();
 
