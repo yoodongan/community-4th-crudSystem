@@ -31,8 +31,6 @@ public class ArticleServiceTest {
     // @BeforeAll 붙인 아래 메서드는
     @BeforeAll
     public void BeforeAll() {
-        MyMap myMap = Container.getObj(MyMap.class);
-
         // 모든 DB 처리시에, 처리되는 SQL을 콘솔에 출력
         myMap.setDevMode(true);
     }
@@ -74,14 +72,12 @@ public class ArticleServiceTest {
 
     @Test
     public void 존재한다() {
-        ArticleService articleService = Container.getObj(ArticleService.class);
 
         assertThat(articleService).isNotNull();
     }
 
     @Test
     public void getArticles() {
-        ArticleService articleService = Container.getObj(ArticleService.class);
 
         List<ArticleDto> articleDtoList = articleService.getArticles();
         assertThat(articleDtoList.size()).isEqualTo(TEST_DATA_SIZE);
@@ -89,7 +85,6 @@ public class ArticleServiceTest {
 
     @Test
     public void getArticleById() {
-        ArticleService articleService = Container.getObj(ArticleService.class);
         ArticleDto articleDto = articleService.getArticleById(1);
 
         assertThat(articleDto.getId()).isEqualTo(1L);
@@ -102,7 +97,6 @@ public class ArticleServiceTest {
 
     @Test
     public void getArticlesCount() {
-        ArticleService articleService = Container.getObj(ArticleService.class);
         // selectLong 메서드 이용
         long articlesCount = articleService.getArticlesCount();
 
@@ -111,7 +105,6 @@ public class ArticleServiceTest {
 
     @Test
     public void write() {    // 데이터 추가 코드.
-        ArticleService articleService = Container.getObj(ArticleService.class);
 
         long newArticleId = articleService.write("제목 new", "내용 new", false);
 
@@ -128,8 +121,6 @@ public class ArticleServiceTest {
     @Test
     public void modify() {
         //Ut.sleep(5000);
-
-        ArticleService articleService = Container.getObj(ArticleService.class);
 
         articleService.modify(1, "제목 new", "내용 new", true);
 
@@ -149,9 +140,15 @@ public class ArticleServiceTest {
 
     @Test
     public void delete() {
-        ArticleService articleService = Container.getObj(ArticleService.class);
+
         articleService.deleteById(1);
         ArticleDto articleDto = articleService.getArticleById(1);
         assertThat(articleDto).isEqualTo(null);   // isNull(); 써도 똑같다.
+    }
+
+    @Test
+    public void 이전_글_가져오기() {
+
+
     }
 }
