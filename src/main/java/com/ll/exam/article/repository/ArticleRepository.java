@@ -33,5 +33,25 @@ public class ArticleRepository {
     }
 
 
+    public long getArticlesCount() {
+        SecSql sql = myMap.genSecSql();
+        sql
+                .append("SELECT COUNT(*)")
+                .append("FROM article");
+        Long count = sql.selectLong();
+        return count;
 
+    }
+
+    public long write(String title, String body, boolean isBlind) {
+        SecSql sql = myMap.genSecSql();
+        sql
+                .append("INSERT INTO article")
+                .append("SET createdDate = NOW()")
+                .append(", modifiedDate = NOW()")
+                .append(", title = ?", title)
+                .append(", body = ?", body)
+                .append(", isBlind = ?", isBlind);
+        return sql.insert();
+    }
 }
