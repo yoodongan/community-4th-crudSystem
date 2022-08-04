@@ -2,13 +2,51 @@ package com.ll.exam;
 
 import com.ll.exam.article.dto.ArticleDto;
 import com.ll.exam.article.service.ArticleService;
+import com.ll.exam.mymap.MyMap;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ArticleServiceTest {
+    /*
+    @BeforeEach 를 통해 매 Test 마다 테이블 내용을 비우고, 다시 테스트 케이스를 채우는 과정을 수행한다.
+    -> 각각의 테스트케이스가 독립적인 환경에서 실행될 수 있도록 만들어줌.
+     */
+    @BeforeEach
+    public void beforeEach() {
+        truncateArticleTable(); // DELETE FROM article; // 보다 TRUNCATE article; 로 삭제하는게 더 깔끔하고 흔적이 남지 않는다.
+        makeArticleTestData();   // 테스트에 필요한 테스트데이터 3개 추가.
+    }
+
+    private void makeArticleTestData() {
+        MyMap myMap = Container.getObj(MyMap.class);
+
+        IntStream.rangeClosed(1, 3).forEach(no -> {
+            boolean isBlind = false;
+            String title = "제목%d".formatted(no);
+            String body = "내용%d".formatted(no);
+
+            myMap.run("""
+                    INSERT INTO article
+                    SET createdDate = NOW(),
+                    modifiedDate = NOW(),
+                    title = ?,
+                    `body` = ?,
+                    isBlind = ?
+                    """, title, body, isBlind);
+        });
+    }
+
+    private void truncateArticleTable() {
+        MyMap myMap = Container.getObj(MyMap.class);
+        myMap.run("TRUNCATE article");   // 테이블을 깔끔하게 지워준다.
+    }
+
+
     @Test
     public void 존재한다() {
         ArticleService articleService = Container.getObj(ArticleService.class);
