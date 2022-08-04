@@ -25,16 +25,16 @@ public class ArticleController {
         rq.view("usr/article/list");
     }
 
-    @GetMapping("/usr/article/detail/{boardCode}/{id}")
-    public void showDetail(Rq rq) {
-        rq.println("게시물 상세페이지<br>");
-
-        // long id = rq.getLongPathValueByIndex(1, -1);
-        String boardCode = rq.getParam("boardCode", ""); // 곧 기능 구현
-        long id = rq.getLongParam("id", -1); // 곧 기능 구현
-
-        rq.println("%s 게시판, %d번 게시물".formatted(boardCode, id));
-    }
+//    @GetMapping("/usr/article/detail/{boardCode}/{id}")
+//    public void showDetail(Rq rq) {
+//        rq.println("게시물 상세페이지<br>");
+//
+//        // long id = rq.getLongPathValueByIndex(1, -1);
+//        String boardCode = rq.getParam("boardCode", ""); // 곧 기능 구현
+//        long id = rq.getLongParam("id", -1); // 곧 기능 구현
+//
+//        rq.println("%s 게시판, %d번 게시물".formatted(boardCode, id));
+//    }
 
     @GetMapping("/usr/article/modify/{boardCode}/{id}")
     public void showModify(Rq rq) {
@@ -70,6 +70,26 @@ public class ArticleController {
         long id = articleService.write(title, body);
 
         rq.replace("/usr/article/detail/free/%d".formatted(id), "%d번 게시물이 생성 되었습니다.".formatted(id));
+    }
+
+    @GetMapping("/usr/article/detail/{id}")
+    public void showDetail(Rq rq) {
+        long id = rq.getLongParam("id", 0);
+
+        if (id == 0) {
+            rq.historyBack("번호를 입력해주세요.");
+            return;
+        }
+
+        ArticleDto articleDto = articleService.getArticleById(id);
+
+        if (articleDto == null) {
+            rq.historyBack("해당 글이 존재하지 않습니다.");
+            return;
+        }
+
+        rq.setAttr("article", articleDto);
+        rq.view("usr/article/detail");
     }
 
 }
